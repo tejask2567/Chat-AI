@@ -1,0 +1,153 @@
+
+.dark-mode {
+    background-color: #121212;
+    color: #fff; /* Change font color to white */
+}
+
+.dark-mode .sidebar {
+    background-color: #0d0d0d;
+}
+
+.dark-mode input[type="text"],
+.dark-mode button {
+    color: #fff; /* Change input and button text color to white */
+}
+
+.dark-mode input[type="text"]::placeholder {
+    color: #bbb; /* Change placeholder text color to light gray */
+}
+
+.dark-mode input[type="text"],
+.dark-mode button {
+    background-color: #333; /* Change input and button background color to dark gray */
+    border: none; /* Remove border */
+}
+
+.dark-mode button {
+    cursor: pointer;
+}
+
+/* Dark mode toggle styles */
+.toggle-dark-mode {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+}
+
+.toggle-dark-mode .toggle-text {
+    margin-left: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+#loading-spinner {
+  /* Center the spinner within the chat container */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Adjust these values based on your GIF size */
+  width: 50px;
+  height: 50px;
+  background-image: url("loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+ .container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 20%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+.chat-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.chat-box {
+    overflow-y: auto;
+    max-height: 70vh;
+    margin-bottom: 10px;
+}
+
+#user-input {
+    width: calc(100% - 80px);
+    margin-right: 10px;
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}

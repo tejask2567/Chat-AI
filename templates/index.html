@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Chat App</title>
+    <link rel="stylesheet" href="static\styles.css">
+    <style>
+/* Dark mode styles */
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="toggle-dark-mode" id="dark-mode-toggle">
+            <label class="switch">
+                <input type="checkbox" id="dark-mode-checkbox">
+                <span class="slider round"></span>
+            </label>
+            <span class="toggle-text">Dark Mode</span>
+        </div>
+        <div class="sidebar">
+            <h2>Upload Documents</h2>
+                <input type="file" name="file" id="file">
+                <h2>Choose AI Model</h2>
+                <select name="ai_model">
+                    <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                    <option value="gemini/gemini-pro">Gemini</option>
+                </select>
+               
+        </div>
+        <div class="chat-container">
+            <div class="chat-box" id="chat-box">
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div id="loading-spinner" class="hidden"></div>
+            <input type="text" name="message" id="user-input" placeholder="Type your message...">
+            <button type="submit" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Dark mode toggle functionality
+        var darkModeCheckbox = document.getElementById("dark-mode-checkbox");
+        var container = document.querySelector(".container");
+
+        darkModeCheckbox.addEventListener("change", function() {
+            container.classList.toggle("dark-mode");
+        });
+        function sendMessage() {
+            const userInput = document.getElementById("user-input").value;
+            const aiModel = document.querySelector("select[name='ai_model']").value;
+            const fileInput = document.getElementById("file");
+            const selectedFile = fileInput.files[0];
+            document.getElementById("loading-spinner").classList.remove("hidden");
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append("message", userInput);
+            formData.append("ai_model", aiModel);
+
+            // Check if a file is selected
+            if (selectedFile) {
+                formData.append("file", selectedFile);
+            }
+
+            // Send POST request with FormData
+            fetch("/process_message", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update chat box with user input and AI response (data.response)
+                appendMessageToChatBox(userInput, "user");
+                appendMessageToChatBox(data.response, "ai");
+                document.getElementById("loading-spinner").classList.add("hidden");
+            })
+            .catch(error => {
+                console.error("Error sending message:", error);
+                document.getElementById("loading-spinner").classList.add("hidden");
+            });
+
+            // Clear the user input field
+            document.getElementById("user-input").value = "";
+             // Clear file selection as well
+       }
+        function appendMessageToChatBox(message, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const messageElement = document.createElement("div");
+            messageElement.classList.add("chat-message", sender);
+            messageElement.innerHTML = "<strong>" + sender + ": </strong>" + message;
+            chatBox.appendChild(messageElement);
+
+            // Optionally, scroll the chat box to the latest message
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        function showLoadingSpinner() {
+            document.getElementById("loading-spinner").classList.remove("hidden");
+        }
+
+        function hideLoadingSpinner() {
+            document.getElementById("loading-spinner").classList.add("hidden");
+        }
+
+    </script>
+</body>
+</html>

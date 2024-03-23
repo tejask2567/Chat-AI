@@ -1,0 +1,6 @@
+venv
+.pre-commit-config.yaml
+README.md
+Dockerfile
+.gitignore
+.gitattributes
